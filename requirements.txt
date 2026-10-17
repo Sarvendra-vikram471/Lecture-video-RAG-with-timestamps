@@ -1,0 +1,6 @@
+yt-dlp
+faster-whisper
+sentence-transformers
+numpy
+streamlit
+anthropic
