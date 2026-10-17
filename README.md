@@ -1,3 +1,15 @@
+---
+title: Lecture RAG with Timestamps
+emoji: 🎓
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.40.0
+python_version: "3.11"
+app_file: app.py
+pinned: false
+---
+
 # Lecture RAG with timestamp answers
 
 Turns a YouTube/NPTEL lecture (or a local audio/video file) into a searchable index and answers

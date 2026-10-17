@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import streamlit as st
 
 from lecture_rag import store
@@ -10,7 +12,14 @@ st.title("🎓 Lecture Q&A with timestamps")
 with st.sidebar:
     st.header("Add a lecture")
     source = st.text_input("YouTube/NPTEL URL or local file path")
-    model = st.selectbox("Whisper model", ["tiny", "base", "small", "medium"], index=2)
+    upload = st.file_uploader("...or upload audio/video", type=["mp3", "m4a", "wav", "mp4", "mkv", "webm"])
+    model = st.selectbox("Whisper model", ["tiny", "base", "small", "medium"], index=1)
+    if upload is not None:
+        up_dir = Path("data/uploads")
+        up_dir.mkdir(parents=True, exist_ok=True)
+        saved = up_dir / upload.name
+        saved.write_bytes(upload.getbuffer())
+        source = str(saved.resolve())
     if st.button("Index lecture") and source:
         with st.status("Indexing...", expanded=True) as status:
             vid = build_index(source.strip(), model, log=st.write)
