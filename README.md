@@ -59,6 +59,19 @@ browser, so the server never hits YouTube's IP blocking) -> server-side captions
 (youtube-transcript-api, then yt-dlp subtitles) -> audio download + Whisper.
 Each video is indexed once and cached, so repeat requests are instant and cost no LLM calls.
 
+## Chrome extension
+
+Adds a panel next to the YouTube player: topic chapters with short summaries (click to jump),
+the current chapter highlighted while playing, and Q&A with clickable timestamps.
+
+1. Start the backend: `uvicorn server:app --port 8000`
+2. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, pick the `extension/` folder.
+3. Open any YouTube lecture and click **Analyze this lecture** in the panel.
+
+The backend URL can be changed from the extension's toolbar popup. Captions are read in the
+browser (caption track, then YouTube's transcript panel) and sent to the server; if that fails
+the server fetches them itself.
+
 ## Run
 
     streamlit run app.py

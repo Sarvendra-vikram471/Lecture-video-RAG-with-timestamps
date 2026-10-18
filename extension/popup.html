@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font-family: Arial, sans-serif; width: 280px; padding: 12px; margin: 0; font-size: 13px; }
+      h3 { margin: 0 0 10px; font-size: 15px; }
+      input { width: 100%; box-sizing: border-box; padding: 6px; margin: 4px 0 8px; }
+      button { padding: 6px 12px; cursor: pointer; }
+      #msg { margin-top: 8px; color: #555; }
+    </style>
+  </head>
+  <body>
+    <h3>🎓 Lecture RAG</h3>
+    <label for="api">Backend URL</label>
+    <input id="api" placeholder="http://localhost:8000" />
+    <button id="save">Save</button>
+    <button id="test">Test connection</button>
+    <div id="msg"></div>
+    <script src="popup.js"></script>
+  </body>
+</html>
