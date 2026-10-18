@@ -17,7 +17,7 @@ questions with a jump-to timestamp, e.g. "explained at 14:32".
 
 Flow: yt-dlp audio -> faster-whisper transcript (timed segments) -> topic-based chunking
 (new chunk where embedding similarity drops) -> MiniLM embeddings -> cosine retrieval ->
-Claude answer citing the timestamp.
+LLM answer (any provider) citing the timestamp.
 
 ## Setup
 
@@ -42,6 +42,22 @@ app still returns the best transcript excerpt + timestamp.
 | ollama | `OLLAMA_ENABLED=1` | local Llama/Qwen, no key, no limits |
 
     set LLM_PROVIDERS=groq,ollama,anthropic
+
+## API (shared by the website and the browser extension)
+
+    uvicorn server:app --port 8000      # docs at http://localhost:8000/docs
+
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/index` | `{source, captions?, title?}`, starts indexing in the background, returns `{video_id, status}` |
+| GET | `/videos/{id}` | `processing` / `error` with log, or `ready` with chapters (time, title, summary, url) |
+| POST | `/videos/{id}/ask` | `{question}` returns answer, timestamp, jump URL and source sections |
+| GET | `/videos` | list indexed lectures |
+
+Transcript sources, in order: captions sent by the client (the extension reads them in the
+browser, so the server never hits YouTube's IP blocking) -> server-side captions
+(youtube-transcript-api, then yt-dlp subtitles) -> audio download + Whisper.
+Each video is indexed once and cached, so repeat requests are instant and cost no LLM calls.
 
 ## Run
 
