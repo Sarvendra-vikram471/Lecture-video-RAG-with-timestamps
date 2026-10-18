@@ -24,7 +24,24 @@ Claude answer citing the timestamp.
     python -m venv .venv
     .venv\Scripts\activate
     pip install -r requirements.txt
-    set ANTHROPIC_API_KEY=...    (optional; without it you get the best excerpt + timestamp)
+    set GROQ_API_KEY=...         (optional; any one provider below is enough)
+
+### LLM providers (all optional, with automatic fallback)
+
+Retrieval and timestamps use local embeddings and need no LLM. Only the answer text does.
+Set `LLM_PROVIDERS` to a priority list; providers without a key are skipped, and if all fail the
+app still returns the best transcript excerpt + timestamp.
+
+| Provider | Env var | Notes |
+|---|---|---|
+| groq | `GROQ_API_KEY` | free tier, Llama 3.3 |
+| gemini | `GEMINI_API_KEY` | free tier |
+| openrouter | `OPENROUTER_API_KEY` | many models |
+| openai | `OPENAI_API_KEY` | paid |
+| anthropic | `ANTHROPIC_API_KEY` | paid |
+| ollama | `OLLAMA_ENABLED=1` | local Llama/Qwen, no key, no limits |
+
+    set LLM_PROVIDERS=groq,ollama,anthropic
 
 ## Run
 
